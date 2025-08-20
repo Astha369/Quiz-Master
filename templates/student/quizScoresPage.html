@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Scores</title>
+    <link rel="icon" href="../../static/images/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href="../../static/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../static/css/quizScoresPage.css">
+</head>
+
+<body>
+
+    <div class="navBarTop">
+        <div class="logo" onclick="location.href='/student/studentDashboard';">
+            <img src="../../static/images/logo.png">
+        </div>
+        <div class="nav-item" onclick="location.href='/student/studentDashboard';">Home</div>
+        <div class="nav-item active" onclick="location.href='/student/quizScores';">Scores</div>
+        <div class="nav-item" onclick="location.href='/student/summary';">Summary</div>
+        <div class="nav-item" onclick="location.href='/auth/logout';">Log Out</div>
+    </div>
+
+    <!-- Quiz Scores Section -->
+    <div class="box">
+        <h2>Quiz Scores</h2>
+        {% if scores %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Quiz ID</th>
+                    <th>Chapter</th>
+                    <th>Subject</th>
+                    <th>Attempted Date</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for score in scores %}
+                <tr>
+                    <td>{{ score.quizId }}</td>
+                    <td>{{ score.quiz.chapter.name }}</td>
+                    <td>{{ score.quiz.chapter.subject.name }}</td>
+                    <td class="utcTime" data-utc="{{ score.takenAt.isoformat() }}">{{ score.takenAt }}</td>
+                    <td>{{ score.score }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>            
+        </table>
+        {% else %}
+        <p>No quiz scores available.</p>
+        {% endif %}
+    </div>
+
+    <script>
+        function convertUtcToLocalTimeZone() {
+            document.querySelectorAll('.utcTime').forEach(element => {
+                let utcDate = new Date(element.getAttribute('data-utc'));
+                let localDate = utcDate.toLocaleString(undefined, { year: 'numeric', month: 'short', day: 'numeric'});
+                element.innerText = localDate;
+            });
+        }
+
+        window.onload = convertUtcToLocalTimeZone;
+    </script>
+
+</body>
+
+</html>

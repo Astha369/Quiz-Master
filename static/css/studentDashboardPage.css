@@ -1,0 +1,128 @@
+.quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1500px;
+    margin: 20px auto;
+    padding-top: 120px;
+    padding-left: 100px;
+}
+
+h2 {
+    margin: 0;
+    font-weight: bolder;
+    font-size: 22px;
+    text-transform: uppercase;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    width: 250px;
+    position: relative;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+.search-container button {
+    position: absolute;
+    right: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#searchResultsContainer {
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    background: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    z-index: 1000;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+#searchResultsContainer h3 {
+    color: #333;
+    font-size: 14px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid rgb(221, 221, 221);
+    padding-bottom: 5px;
+}
+
+#searchResults p {
+    padding: 5px;
+    cursor: pointer;
+}
+
+#searchResults p:hover {
+    background: #f0f0f0;
+}
+
+.hidden {
+    display: none;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-left: 100px;
+}
+
+th, td {
+    border: 1px solid rgb(221, 221, 221);
+    padding: 10px;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+th {
+    background: rgba(233,219,147,1);
+    color: black;
+}
+
+.btn {
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.btn-view {
+    background: #007bff;
+    color: white;
+}
+
+.btn-start {
+    background: #28a745;
+    color: white;
+}
+
+.btn-expiry {
+    color: white;
+    background: #dc3545;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
+a:visited, a:hover, a:active, a {
+    color: white;
+    text-decoration: none;
+}

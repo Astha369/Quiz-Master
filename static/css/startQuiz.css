@@ -1,0 +1,75 @@
+.top-bar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 30px;
+    font-size: 18px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.container {
+    margin-top: 80px; 
+    padding: 20px;
+    width: 50%;
+    border-radius: 8px;
+}
+
+.question {
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.options label {
+    display: block;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: medium;
+}
+
+.options input[type="radio"] {
+    margin-right: 10px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.save {
+    background: #28a745;
+    color: white;
+}
+
+.submit {
+    background: #dc3545;
+    color: white;
+}
+
+a:visited, a:hover, a:active, a {
+    color: white;
+    text-decoration: none;
+}
+
+.save:hover {
+    background: #218838;
+}
+
+.submit:hover {
+    background: #c82333;
+}

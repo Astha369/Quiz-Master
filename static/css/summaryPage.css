@@ -1,0 +1,26 @@
+.chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    margin-top: 50px;
+}
+
+.chart-box {
+    text-align: center;
+    border: 1px solid black;
+    padding: 15px;
+}
+
+.chart-box canvas {
+    width: 500px !important;
+    height: 500px !important;
+}
+
+.left-chart {
+    margin-left: 50px;
+}
+
+h3 {
+    margin-bottom: 10px;
+}

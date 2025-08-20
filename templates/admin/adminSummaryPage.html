@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Summary</title>
+    <link rel="icon" href="../../static/images/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href="../../static/css/style.css" rel="stylesheet">
+    <link href="../../static/css/summaryPage.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <div class="navBarTop">
+        <div class="logo" onclick="location.href='/admin/adminDashboard';">
+            <img src="../../static/images/logo.png">
+        </div>
+        <div class="nav-item" onclick="location.href='/admin/adminDashboard';">Home</div>
+        <div class="nav-item" onclick="location.href='/admin/quizzes';">Quizzes</div>
+        <div class="nav-item active" onclick="location.href='/admin/adminSummary';">Summary</div>
+        <div class="nav-item" onclick="location.href='/auth/logout';">Log Out</div>
+    </div>
+
+        <div id="chartData"
+            data-top-scores='{{ topScoresData | tojson | safe }}'
+            data-subject-users='{{ subjectWiseUsersData | tojson | safe }}'>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-box left-chart">
+                <h3>Subject-wise Top Scores Chart</h3>
+                <canvas id="topScoresChart"></canvas>
+            </div>
+            <div class="chart-box">
+                <h3>Subject-wise Users Chart</h3>
+                <canvas id="subjectUsersChart"></canvas>
+            </div>
+        </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let chartElement = document.getElementById("chartData");
+
+            let topScoresData = JSON.parse(chartElement.getAttribute("data-top-scores") || "[]");
+            let subjectWiseUsersData = JSON.parse(chartElement.getAttribute("data-subject-users") || "[]");
+
+            let scoreLabels = topScoresData.map(item => item.subject);
+            let scoreValues = topScoresData.map(item => item.score);
+
+            let subjectLabels = subjectWiseUsersData.map(item => item.subject);
+            let userCounts = subjectWiseUsersData.map(item => item.users);
+
+            // top scores per subject
+            new Chart(document.getElementById('topScoresChart'), {
+                type: 'bar',
+                data: {
+                    labels: scoreLabels,
+                    datasets: [{
+                        label: 'Top Score Per Subject',
+                        data: scoreValues,
+                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+
+            // subject-wise users attempted
+            new Chart(document.getElementById('subjectUsersChart'), {
+                type: 'pie',
+                data: {
+                    labels: subjectLabels,
+                    datasets: [{
+                        label: 'Users Attempted Per Subject',
+                        data: userCounts,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.6)',
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(255, 206, 86, 0.6)',
+                            'rgba(75, 192, 192, 0.6)',
+                            'rgba(153, 102, 255, 0.6)',
+                            'rgba(255, 159, 64, 0.6)'
+                        ],
+                        borderColor: 'rgba(0, 0, 0, 0.1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>

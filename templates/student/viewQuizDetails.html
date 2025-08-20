@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Details</title>
+    <link rel="icon" href="../../static/images/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href="../../static/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../static/css/viewQuizDetails.css"> 
+</head>
+
+<body>
+
+    <div class="navBarTop">
+        <div class="logo" onclick="location.href='/student/studentDashboard';">
+            <img src="../../static/images/logo.png">
+        </div>
+        <div class="nav-item active" onclick="location.href='/student/studentDashboard';">Home</div>
+        <div class="nav-item" onclick="location.href='/student/quizScores';">Scores</div>
+        <div class="nav-item" onclick="location.href='/student/summary';">Summary</div>
+        <div class="nav-item" onclick="location.href='/auth/logout';">Log Out</div>
+    </div>
+
+    <!-- quiz details section -->
+    <div class="box">
+        <h2>Quiz Details</h2>
+        <div class="details">
+            <span class="definition-label">Id:</span>
+            <span class="definition-value">{{ quiz.id }}</span>
+        </div>
+
+        <div class="details">
+            <span class="definition-label">Subject:</span>
+            <span class="definition-value">{{ quiz.subjectName }}</span>
+        </div>
+
+        <div class="details">
+            <span class="definition-label">Chapter:</span>
+            <span class="definition-value">{{ quiz.chapterName }}</span>
+        </div>
+
+        <div class="details">
+            <span class="definition-label">Number of Questions:</span>
+            <span class="definition-value">{{ quiz.questionCount }}</span>
+        </div>
+
+        <div class="details">
+            <span class="definition-label">Date:</span>
+            <span class="definition-value">{{ quiz.date.strftime('%Y-%m-%d') }}</span>
+        </div>
+
+        <div class="details">
+            <span class="definition-label">Duration:</span>
+            <span class="definition-value">{{ quiz.duration }}</span>
+        </div>
+
+        <a href="{{ url_for('student.studentDashboard') }}" class="btn btn-primary">Close</a>
+
+    </div>
+
+</body>
+
+</html>

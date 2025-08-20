@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="icon" href="../../static/images/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href="../../static/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../static/css/studentDashboardPage.css">
+</head>
+
+<body>
+
+
+    <div class="navBarTop">
+        <div class="logo" onclick="location.href='/student/studentDashboard';">
+            <img src="../../static/images/logo.png">
+        </div>
+        <div class="nav-item active" onclick="location.href='/student/studentDashboard';">Home</div>
+        <div class="nav-item" onclick="location.href='/student/quizScores';">Scores</div>
+        <div class="nav-item" onclick="location.href='/student/summary';">Summary</div>
+        <div class="nav-item" onclick="location.href='/auth/logout';">Log Out</div>
+
+    </div>
+
+
+    <!-- upcoming quiz section -->
+    <div class="box">
+        <div class="quiz-header">
+            <h2>Quiz Details</h2>
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search chapters..."
+                    onkeyup="handleSearch()">
+                <button onclick="clearSearch()">X</button>
+            </div>
+        </div>
+        {% if quizzes %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Chapter</th>
+                    <th>No. of Questions</th>
+                    <th>Date</th>
+                    <th>Duration</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for quiz in quizzes %}
+                <tr>
+                    <td>{{quiz.id}}</td>
+                    <td>{{quiz.chapterName}}</td>
+                    <td>{{quiz.questionCount}}</td>
+                    <td>{{quiz.date.strftime('%b, %d, %Y') }}</td>
+                    <td>{{quiz.duration}} minutes</td>
+                    <td>
+                        <button class="btn btn-view">
+                            <a href="{{ url_for('student.viewQuizDetails', quizId=quiz.id )}}">View</a>
+                        </button>
+                    
+                        {% if quiz.date.replace(tzinfo=None) > current_time.replace(tzinfo=None) %}
+                            <button class="btn btn-start">
+                                <a href="{{ url_for('student.startQuiz', quizId=quiz.id) }}">Start</a>
+                            </button>
+                        {% else %}
+                            <button class="btn btn-expiry expired-quiz" disabled>Expired</button>
+                        {% endif %}
+                    </td>                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No quizzes available for your qualification</p>
+        {% endif %}
+    </div>
+
+    <div id="searchResultsContainer" class="hidden">
+    </div>
+
+    <script src="{{ url_for('static', filename='js/studentSearch.js') }}"></script>
+
+    <script>
+        document.querySelectorAll('.expired-quiz').forEach(button => {
+            button.addEventListener('click', function () {
+                alert("This quiz has expired. You can no longer attempt it.");
+            });
+        });
+    </script>
+    
+</body>
+
+</html>

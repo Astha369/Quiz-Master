@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summary</title>
+    <link rel="icon" href="../../static/images/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href="../../static/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../static/css/studentDashboardPage.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="../../static/css/summaryPage.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="navBarTop">
+        <div class="logo" onclick="location.href='/student/studentDashboard';">
+            <img src="../../static/images/logo.png">
+        </div>
+        <div class="nav-item" onclick="location.href='/student/studentDashboard';">Home</div>
+        <div class="nav-item" onclick="location.href='/student/quizScores';">Scores</div>
+        <div class="nav-item active" onclick="location.href='/student/summary';">Summary</div>
+        <div class="nav-item" onclick="location.href='/auth/logout';">Log Out</div>
+    </div>
+
+    <div id="chartData"
+        data-subjects='{{ subjectData | tojson | safe }}'
+        data-months='{{ monthData | tojson | safe }}'>
+    </div>
+
+    <div class="chart-container">
+        <div class="chart-box left-chart">
+            <h3>Subject-wise Quizzes Chart</h3>
+            <canvas id="subjectChart"></canvas>
+        </div>
+        <div class="chart-box">
+            <h3>Month-wise Quizzes Attempted Chart</h3>
+            <canvas id="monthChart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let chartElement = document.getElementById("chartData");
+            
+            let subjectData = JSON.parse(chartElement.getAttribute("data-subjects") || "[]");
+            let monthData = JSON.parse(chartElement.getAttribute("data-months") || "[]");
+
+            let subjectLabels = subjectData.map(item => item.subject);
+            let subjectCounts = subjectData.map(item => item.count);
+
+            let monthLabels = monthData.map(item => item.month);
+            let monthCounts = monthData.map(item => item.count);
+
+            // Subject-wise Chart
+            new Chart(document.getElementById('subjectChart'), {
+                type: 'bar',
+                data: {
+                    labels: subjectLabels,
+                    datasets: [{
+                        label: 'Quizzes per Subject',
+                        data: subjectCounts,
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    maintainAspectRatio: false,
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+
+            // Month-wise Attempted Chart
+            new Chart(document.getElementById('monthChart'), {
+                type: 'pie',
+                data: {
+                    labels: monthLabels,
+                    datasets: [{
+                        label: 'Quizzes Attempted per Month',
+                        data: monthCounts,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.6)',
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(255, 206, 86, 0.6)',
+                            'rgba(75, 192, 192, 0.6)',
+                            'rgba(153, 102, 255, 0.6)',
+                            'rgba(255, 159, 64, 0.6)'
+                        ],
+                        borderColor: 'rgba(0, 0, 0, 0.1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    maintainAspectRatio: false
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

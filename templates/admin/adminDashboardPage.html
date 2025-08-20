@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Home</title>
+    <link rel="icon" href="../../static/images/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href="../../static/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../static/css/adminDashboardPage.css">
+</head>
+
+<body>
+
+    <div class="navBarTop">
+        <div class="logo" onclick="location.href='/admin/adminDashboard';">
+            <img src="../../static/images/logo.png">
+        </div>
+        <div class="nav-item active" onclick="location.href='/admin/adminDashboard';">Home</div>
+        <div class="nav-item" onclick="location.href='/admin/quizzes';">Quizzes</div>
+        <div class="nav-item" onclick="location.href='/admin/adminSummary';">Summary</div>
+        <div class="nav-item" onclick="location.href='/auth/logout';">Log Out</div>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search for a subject..." onkeyup="filterSubjects()">
+    </div>
+
+    <!-- Subject Cards Section -->
+    <div class="card-grid" id="subjectCards">
+        {% for subject in subjects %}
+        <div class="card subject-card">
+            <h2 class="subject-name">{{ subject.name }}</h2>
+            <p>{{ subject.description }}</p>
+
+            <!-- Edit & Delete Subject Buttons -->
+            <div class="subject-actions">
+                <a href="{{ url_for('admin.editSubject', subjectId=subject.id) }}" class="btn btn-edit">Edit Subject</a>
+                <form action="{{ url_for('admin.deleteSubject', subjectId=subject.id) }}" method="POST" style="display: inline;">
+                    <button type="submit" class="btn btn-delete">Delete Subject</button>
+                </form>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Chapter Name</th>
+                        <th>No. of Questions</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for chapter in subject.chapters %}
+                    <tr>
+                        <td>{{ chapter.name }}</td>
+                        <td>{{ chapter.questions | length }}</td>
+                        <td>
+                            <a href="{{ url_for('admin.editChapter', chapterId=chapter.id) }}" class="btn btn-edit">Edit</a>
+                            <form action="{{ url_for('admin.deleteChapter', chapterId=chapter.id) }}" method="POST" style="display: inline;">
+                                <button type="submit" class="btn btn-delete">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="add">
+                <a href="{{ url_for('admin.addChapter', subjectId=subject.id) }}" class="btn btn-add">Add Chapter</a>
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- No results message -->
+        <div id="noResultsMessage" style="display: none; text-align: center; width: 100%;">
+            <p>No Subjects Found</p>
+        </div>
+
+        <a href="{{ url_for('admin.addSubject') }}" class="card add-subject-card">
+            <div class="add-subject-content">
+                <span class="add-icon">+</span>
+                <p>Add New Subject</p>
+            </div>
+        </a>
+    </div>
+
+    <script>
+        function filterSubjects() {
+            let query = document.getElementById("searchInput").value.toLowerCase();
+            let cards = document.querySelectorAll(".subject-card");
+            let noResultsMessage = document.getElementById("noResultsMessage");
+            let found = false;
+
+            cards.forEach(card => {
+                let subjectName = card.querySelector(".subject-name").innerText.toLowerCase();
+                if (subjectName.includes(query)) {
+                    card.style.display = "block";
+                    found = true;
+                } else {
+                    card.style.display = "none";
+                }
+            });
+
+            noResultsMessage.style.display = found ? "none" : "block";
+        }
+    </script>
+
+</body>
+</html>
