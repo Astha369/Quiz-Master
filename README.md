@@ -4,7 +4,7 @@
 
 ### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/22f1001941/Quiz-Master.git
+git clone https://github.com/Astha369/Quiz-Master.git
 cd <your-project-folder>
 ```
 
